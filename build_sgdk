@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -e
+
+NPROC=$(($(nproc) + 1))
+
+SGDKDIR="$PWD"
+BINDIR="$SGDKDIR/bin"
+BUILDDIR=/tmp/build
+
+mkdir -p "$BUILDDIR"
+
+echo "### Cleaning Windows stuff ###"
+
+rm "$BINDIR"/{*.exe,*.dll,create-bin-wrappers.sh}
+rm "$SGDKDIR/lib/"*.a
+
+echo "### BUILDING bintos ###"
+
+cd $SGDKDIR/tools/bintos/src
+gcc -Wall -O3 bintos.c -o bintos
+strip bintos
+cp bintos "$BINDIR"
+
+echo "### BUILDING xgmtool ###"
+
+cd $SGDKDIR/tools/xgmtool
+gcc -Wall -O3 -Iinc src/*.c -lm -o xgmtool
+strip xgmtool
+cp xgmtool "$BINDIR"
+
+echo "### BUILDING sjasm ###"
+
+cd "$BUILDDIR/sjasm"
+tar -xf sjasm-0.39h.tar.gz
+cd Sjasm-0.39h/Sjasm
+mv Sjasm.cpp sjasm.cpp
+make -f ../Makefile
+strip sjasm
+cp sjasm "$BINDIR"
+
+echo "### BUILDING SGDK LIBS ###"
+
+export PATH="$PATH:$BINDIR"
+export GDK="$SGDKDIR"
+cd $SGDKDIR
+echo $PWD
+ls
+make -f makelib.gen -j$NPROC cleanrelease
+make -f makelib.gen -j$NPROC release
+make -f makelib.gen -j$NPROC cleandebug
+make -f makelib.gen -j$NPROC debug
