@@ -2,9 +2,9 @@
 
 Dockerfile based [SGDK](https://github.com/Stephane-D/SGDK/) toolchain.
 
-The Dockerfile is based on [this m68k-elf toolchain](https://gitlab.com/doragasu/docker-deb-m68k) and it includes newlib (even though SGDK does not require it).
+The Dockerfile is based on [this m68k-elf toolchain](https://gitlab.com/doragasu/docker-deb-m68k) and it includes newlib (even though SGDK does not require it). All the tools in the image (including GCC) are Linux native and replace the Windows versions bundled with upstream SGDK. Included GCC version is 6.3, that has been found to generate better code for m68k targets than newer versions.
 
-The repository contains a GitLab CI/CD script that automatically builds the docker images on new tags, and pushes them to the GitLab registry, so you do not need to build the image yourself, you can just pull it from the GitLab registry. You can browse the readily available images [here](https://gitlab.com/doragasu/docker-sgdk/container_registry/2608513).
+The repository contains a GitLab CI/CD script that automatically builds the docker images on new tags, and pushes them to the GitLab registry, so you do not need to build the image yourself, you can just pull it from the GitLab registry. You can browse the [readily available images here](https://gitlab.com/doragasu/docker-sgdk/container_registry).
 
 The Dockerfile supports generating docker images with and without MegaWiFi support. Images with MegaWiFi support have a version tag ending with `-mw` (e.g. `master-mw` tag uses the latest `master` branch when the image was built and has MegaWiFi support, while `master` tag uses the latest `master` branch without MegaWiFi support).
 
