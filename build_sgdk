@@ -43,8 +43,6 @@ echo "### BUILDING SGDK LIBS ###"
 export PATH="$PATH:$BINDIR"
 export GDK="$SGDKDIR"
 cd $SGDKDIR
-echo $PWD
-ls
 make -f makelib.gen -j$NPROC cleanrelease
 make -f makelib.gen -j$NPROC release
 make -f makelib.gen -j$NPROC cleandebug
