@@ -38,6 +38,14 @@ make -f ../Makefile
 strip sjasm
 cp sjasm "$BINDIR"
 
+echo "### BUILDING maccer ###"
+
+cd "$BUILDDIR/maccer"
+unzip maccer-026k02.zip
+gcc main.c -O3 -DVERSION_STRING="\"2.6\"" -DKMOD_VERSION="\"0.2\"" -lm -o mac68k
+strip mac68k
+cp mac68k "$BINDIR"
+
 echo "### BUILDING SGDK LIBS ###"
 
 export PATH="$PATH:$BINDIR"
