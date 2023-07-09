@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/doragasu/docker-deb-m68k AS buildstage
+FROM ghcr.io/rhargreaves/docker-deb-m68k AS buildstage
 USER root
 RUN apt-get update && apt-get install -y git wget flex bison gperf zlib1g-dev build-essential openjdk-17-jre-headless unzip
 RUN mkdir -p /tmp
@@ -18,7 +18,7 @@ COPY build_sgdk /tmp/SGDK
 RUN cd /tmp/SGDK && ./build_sgdk
 
 # Second stage
-FROM registry.gitlab.com/doragasu/docker-deb-m68k
+FROM ghcr.io/rhargreaves/docker-deb-m68k
 USER root
 RUN apt-get update && apt-get install -y openjdk-17-jre-headless
 COPY --from=buildstage /tmp/SGDK /sgdk
