@@ -38,3 +38,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
+          build-args: SGDK_RELEASE=v1.70
