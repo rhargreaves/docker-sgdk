@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  SGDK_RELEASE: v1.70
 
 jobs:
   buildx:
@@ -15,6 +16,13 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+        matrix:
+          include:
+            - enable_mw: y
+              tag_suffix: '-mw'
+            - enable_mw: n
+              tag_suffix: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -37,5 +45,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
-          build-args: SGDK_RELEASE=v1.70
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
+          build-args: SGDK_RELEASE=${{ env.SGDK_RELEASE }} ENABLE_MEGAWIFI=${{ matrix.enable_mw }}
