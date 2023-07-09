@@ -22,7 +22,9 @@ RUN cd /tmp/SGDK && ./build_sgdk
 # Second stage
 FROM ghcr.io/rhargreaves/docker-deb-m68k
 USER root
-RUN apt-get update && apt-get install -y openjdk-17-jre-headless
+RUN apt-get update && \
+	apt-get install -y ca-certificates-java && \
+	apt-get install -y openjdk-17-jre-headless
 COPY --from=buildstage /tmp/SGDK /sgdk
 ENV GDK=/sgdk
 
