@@ -1,6 +1,8 @@
 FROM ghcr.io/rhargreaves/docker-deb-m68k AS buildstage
 USER root
-RUN apt-get update && apt-get install -y git wget flex bison gperf zlib1g-dev build-essential openjdk-17-jre-headless unzip
+RUN apt-get update && \
+	apt-get install -y ca-certificates-java && \
+	apt-get install -y git wget flex bison gperf zlib1g-dev build-essential openjdk-17-jre-headless unzip
 RUN mkdir -p /tmp
 
 # Use --build-arg=SGDK_RELEASE=<branch> switch to change
