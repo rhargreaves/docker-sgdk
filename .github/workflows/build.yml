@@ -46,4 +46,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
-          build-args: SGDK_RELEASE=${{ env.SGDK_RELEASE }} ENABLE_MEGAWIFI=${{ matrix.enable_mw }}
+          build-args: SGDK_RELEASE=${{ env.SGDK_RELEASE }},ENABLE_MEGAWIFI=${{ matrix.enable_mw }}
