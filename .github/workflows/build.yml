@@ -18,11 +18,16 @@ jobs:
       packages: write
     strategy:
         matrix:
-          include:
+          mw:
             - enable_mw: y
-              tag_suffix: '-mw'
+              mw_tag_suffix: '-mw'
             - enable_mw: n
-              tag_suffix: ''
+              mw_tag_suffix: ''
+          bank-switching:
+            - enable_bank_switching: y
+              bs_tag_suffix: '-bs'
+            - enable_bank_switching: n
+              bs_tag_suffix: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,7 +53,8 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.mw_tag_suffix }}${{ matrix.bs_tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
           build-args: |
             "SGDK_RELEASE=${{ env.SGDK_RELEASE }}"
             "ENABLE_MEGAWIFI=${{ matrix.enable_mw }}"
+            "ENABLE_BANK_SWITCHING=${{ matrix.enable_bank_switching }}"

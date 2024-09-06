@@ -9,8 +9,13 @@ RUN mkdir -p /tmp
 ARG SGDK_RELEASE=master
 # Use --build-arg=ENABLE_MEGAWIFI=y to enable MegaWiFi support
 ARG ENABLE_MEGAWIFI=y
+ARG ENABLE_BANK_SWITCH=y
 RUN cd /tmp && git clone -b $SGDK_RELEASE --depth=1 https://github.com/Stephane-D/SGDK.git
-RUN test "$ENABLE_MEGAWIFI" = "y" && sed -i 's/#define MODULE_MEGAWIFI         0/#define MODULE_MEGAWIFI         1/' /tmp/SGDK/inc/config.h || true
+RUN test "$ENABLE_MEGAWIFI" = "y" && \
+	sed -i 's/#define MODULE_MEGAWIFI         0/#define MODULE_MEGAWIFI         1/' /tmp/SGDK/inc/config.h || true
+RUN test "$ENABLE_BANK_SWITCH" = "y" && \
+	sed -i 's/#define ENABLE_BANK_SWITCH      0/#define ENABLE_BANK_SWITCH      1/' /tmp/SGDK/inc/config.h || true
+
 # Download compatible SJASM sources
 RUN mkdir -p "/tmp/build/sjasm" && cd "/tmp/build/sjasm" && \
 	wget https://github.com/Konamiman/Sjasm/archive/v0.39h.tar.gz -O sjasm-0.39h.tar.gz
