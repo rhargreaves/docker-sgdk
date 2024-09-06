@@ -19,15 +19,15 @@ jobs:
     strategy:
         matrix:
           mw:
-            - enable_mw: y
-              mw_tag_suffix: '-mw'
-            - enable_mw: n
-              mw_tag_suffix: ''
-          bank-switching:
-            - enable_bank_switching: y
-              bs_tag_suffix: '-bs'
-            - enable_bank_switching: n
-              bs_tag_suffix: ''
+            - arg: y
+              tag_suffix: '-mw'
+            - arg: n
+              tag_suffix: ''
+          bank_switching:
+            - arg: y
+              tag_suffix: '-bs'
+            - arg: n
+              tag_suffix: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -53,8 +53,8 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.mw_tag_suffix }}${{ matrix.bs_tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest,${{ env.REGISTRY }}/${{ github.repository }}:${{ env.SGDK_RELEASE }}${{ matrix.mw.tag_suffix }}${{ matrix.bank_switching.tag_suffix }},${{ env.REGISTRY }}/${{ github.repository }}:${{ github.run_number }}
           build-args: |
             "SGDK_RELEASE=${{ env.SGDK_RELEASE }}"
-            "ENABLE_MEGAWIFI=${{ matrix.enable_mw }}"
-            "ENABLE_BANK_SWITCHING=${{ matrix.enable_bank_switching }}"
+            "ENABLE_MEGAWIFI=${{ matrix.mw.arg }}"
+            "ENABLE_BANK_SWITCHING=${{ matrix.bank_switching.arg }}"
