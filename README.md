@@ -9,7 +9,8 @@ The repository contains a GitLab CI/CD script that automatically builds the dock
 The Dockerfile supports generating docker images with and without MegaWiFi support and also if bank switching should be enabled.
 
 * Images with MegaWiFi support have a version tag ending with `-mw` (e.g. `v2.00-mw` tag uses the latest `v2.00` SGDK tag when the image was built and has MegaWiFi support, while `v2.00` tag uses the latest `v2.00` SGDK tag without MegaWiFi support).
-* Images with bank switching include `-bs`.
+* Images with bank switching end with `-bs`.
+* Images with both MegaWiFi and bank switching support end with `-mw-bs`.
 
 The entry point directly runs `make -f $GDK/makefile.gen`. Thus if you run the container mapping the directory of an SGDK project to `/m68k`, the container will directly try building it.
 
@@ -29,7 +30,7 @@ To build your SGDK project, from the project directory run:
 $ docker run --rm -v $PWD:/m68k -t ghcr.io/rhargreaves/docker-sgdk:v2.00
 ```
 
-You can replace `v1.70` with the version tag you want. The first time you run the command, Docker should fetch the container from the registry and run it.
+You can replace `v2.00` with the version tag you want. The first time you run the command, Docker should fetch the container from the registry and run it.
 
 You can pass additional `make` arguments. E.g. to clean the project run:
 
